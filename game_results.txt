@@ -1,1 +1,3 @@
 Player: seetaram, Attempts: 7, Result: WIN
+Player: seetaram, Attempts: 5, Result: WIN
+Player: seetaram, Attempts: 7, Result: LOSE
