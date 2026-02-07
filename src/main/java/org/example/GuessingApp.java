@@ -4,19 +4,18 @@ import java.util.Scanner;
 
 /**
  * MAIN CLASS
- * * Use Case 4: Error Handling & Validation
- * * This class coordinates the game execution while ensuring
- * all user inputs are safely validated before processing.
+ * * Use Case 5: Game Result Storage
+ * * This class coordinates the complete game flow
+ * and persists the final result after completion.
  * * Responsibilities:
  * - Initialize game configuration
- * - Accept user input
- * - Validate input using ValidationService
- * - Handle game flow without crashing on invalid input
+ * - Accept and validate user guesses
+ * - Generate hints when applicable
+ * - Store game result at the end
  *
  * @author seetharamaraju
- * @version 4.0
+ * @version 5.0
  */
-
 public class GuessingApp {
     public static void main(String[] args) {
 
@@ -25,8 +24,13 @@ public class GuessingApp {
         gameConfiguration.showRules();
 
         Scanner scanner = new Scanner(System.in);
+        /* * Player name is captured once * and stored along with game results. */
+        System.out.print("Enter Player Name: ");
+        String player = scanner.nextLine();
+
         int attempts = 0;
         int hintCount = 0;
+        boolean win = false;
 
         /*
          * Game loop runs until the player
@@ -49,6 +53,7 @@ public class GuessingApp {
                  */
                 if (result.equals("CORRECT")) {
                     System.out.println("🎉 You won in " + attempts + " attempts!");
+                    win = true;
                     break;
                 }
 
@@ -60,8 +65,13 @@ public class GuessingApp {
                 System.out.println(e.getMessage());
             }
         }
-        System.out.println("Completed ur Attempts : MAX:ATTEMPTS = " + gameConfiguration.getMaxAttempts() + "Used ATTEMPTS " + attempts);
-        System.out.println("Good Luck Next Time !! ");
+        // * *Final game result is persisted * after the game loop completes. */
+        StorageService.saveResult(player, attempts, win);
+
+        if (win == false) {
+            System.out.println("Completed ur Attempts : MAX:ATTEMPTS = " + gameConfiguration.getMaxAttempts() + "Used ATTEMPTS " + attempts);
+            System.out.println("Good Luck Next Time !! ");
+        }
         scanner.close();
     }
 }
