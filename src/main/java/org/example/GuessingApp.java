@@ -23,6 +23,7 @@ public class GuessingApp {
 
         Scanner scanner = new Scanner(System.in);
         int attempts = 0;
+        int hintCount = 0;
 
         /*
          * Game loop runs until the player
@@ -43,9 +44,18 @@ public class GuessingApp {
              * if the correct number is guessed.
              */
             if (result.equals("CORRECT")) {
+                System.out.println("🎉 You won in " + attempts + " attempts!");
                 break;
             }
+
+            if (hintCount < gameConfiguration.getMaxHints()) {
+                hintCount++;
+                System.out.println(
+                        HintService.generateHint(
+                                gameConfiguration.getTargetNumber(), hintCount));
+            }
         }
+        scanner.close();
     }
 
 }
